@@ -1,0 +1,7 @@
+package com.example.weatherMonitoringSystem.repository;
+
+import com.example.weatherMonitoringSystem.model.WeatherModel;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface WeatherRepository extends JpaRepository<WeatherModel,String> {
+}
