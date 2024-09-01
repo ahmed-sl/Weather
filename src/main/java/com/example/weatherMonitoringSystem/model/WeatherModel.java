@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "weather_model") // Optional: Use this if the table name is different
+@Table(name = "weather_model")
 @AllArgsConstructor @NoArgsConstructor @Data
 public class WeatherModel {
     @Id
