@@ -1,11 +1,15 @@
 package com.example.weatherMonitoringSystem.service;
 
+import com.example.weatherMonitoringSystem.controller.WeatherController;
 import com.example.weatherMonitoringSystem.model.WeatherModel;
+import com.example.weatherMonitoringSystem.publisher.PublishWeatherData;
 import com.example.weatherMonitoringSystem.repository.WeatherRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.common.protocol.types.Field;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,20 +22,14 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class WeatherService {
+
+    Logger logger = LoggerFactory.getLogger(WeatherService.class);
+
     private final WeatherRepository weatherRepository;
+    private final PublishWeatherData publishWeatherData;
     private final RestTemplate restTemplate = new RestTemplate();
     List<String> cities = Arrays.asList("riyadh", "jeddah", "mecca", "medina", "dammam", "khobar", "abha", "tabuk", "taif", "hail");
     private final String apiKey = "2753e6dcf6fd4750ab7115505242908";
-    public String saveData() {
-        WeatherModel weatherModel = new WeatherModel();
-        weatherModel.setLocation("Jeddah");
-        weatherModel.setLatitude(24.45);
-        weatherModel.setLongitude(24.45);
-        weatherModel.setDate(LocalDate.now());
-        weatherModel.setDegree(44.1);
-        weatherRepository.save(weatherModel);
-        return "Data save to database !!";
-    }
 
     public List<WeatherModel> getAllData(){
         return weatherRepository.findAll();
@@ -43,16 +41,16 @@ public class WeatherService {
             String url = String.format("https://api.weatherapi.com/v1/current.json?key=%s&q=%s&aqi=no", apiKey, city);
             try {
                 String response = restTemplate.getForObject(url, String.class);
-                message = parseAndSave(response, city);
+                parseData(response, city);
             } catch (Exception e) {
                 System.out.println("Error fetching weather data for city: " + city);
                 e.printStackTrace();
             }
         }
-        return message;
+        return "Work !!";
     }
 
-    private String parseAndSave(String jsonResponse, String city) throws Exception {
+    private WeatherModel parseData(String jsonResponse, String city) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode root = objectMapper.readTree(jsonResponse);
 
@@ -72,12 +70,30 @@ public class WeatherService {
         weatherData.setDate(date);
         weatherData.setDegree(degree);
 
-        weatherRepository.save(weatherData);
-        return "Done !!";
+        return weatherData;
+
     }
 
     public String addData() {
 
         return null;
+    }
+
+    public String fetchData() {
+        List<WeatherModel> weatherModels = new ArrayList<>();
+        for (String city : cities) {
+            String url = String.format("https://api.weatherapi.com/v1/current.json?key=%s&q=%s&aqi=no", apiKey, city);
+            try {
+                String response = restTemplate.getForObject(url, String.class);
+                weatherModels.add(parseData(response, city));
+            } catch (Exception e) {
+                System.out.println("Error fetching weather data for city: " + city);
+                e.printStackTrace();
+            }
+        }
+        System.out.println("from service " + weatherModels.toString());
+        publishWeatherData.publishWeatherData(weatherModels);
+        System.out.println("after publish");
+        return "Data Successfully publish";
     }
 }

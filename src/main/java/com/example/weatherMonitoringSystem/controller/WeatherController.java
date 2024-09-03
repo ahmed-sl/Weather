@@ -23,10 +23,10 @@ public class WeatherController {
     Logger logger = LoggerFactory.getLogger(WeatherController.class);
     private final WeatherService weatherService;
 
-    @GetMapping("/users")
-    public ResponseEntity<String> saveData(){
+    @PostMapping("/fetch")
+    public ResponseEntity<String> fetchDataFromAPI(){
         logger.info("use endpoint get user");
-        String message = weatherService.saveData();
+        String message = weatherService.fetchData();
         return ResponseEntity.status(HttpStatus.OK).body(message);
     }
     @GetMapping("/data")
