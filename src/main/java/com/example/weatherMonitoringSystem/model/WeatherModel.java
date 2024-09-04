@@ -12,30 +12,27 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "weather_model")
-@AllArgsConstructor @NoArgsConstructor @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class WeatherModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @NotNull
+    private int id;
 
     @NotBlank
-    @Column(name = "location_name")
     private String location;
 
     @NotNull
-    @Column(name = "latitude")
     private double latitude;
 
     @NotNull
-    @Column(name = "longitude")
     private double longitude;
 
     @NotNull
-    @Column(name = "date")
     private LocalDate date;
 
     @NotNull
-    @Column(name = "degree")
     private double degree;
 }
 
