@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.kafka.common.protocol.types.Field;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -18,7 +19,7 @@ import java.util.UUID;
 public class WeatherModel {
     @Id
     @NotNull
-    private int id;
+    private UUID id;
 
     @NotBlank
     private String location;
@@ -30,7 +31,7 @@ public class WeatherModel {
     private double longitude;
 
     @NotNull
-    private LocalDate date;
+    private String date;
 
     @NotNull
     private double degree;

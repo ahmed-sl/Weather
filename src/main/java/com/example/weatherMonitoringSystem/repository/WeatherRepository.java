@@ -4,6 +4,7 @@ import com.example.weatherMonitoringSystem.model.WeatherModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.UUID;
 
-public interface WeatherRepository extends JpaRepository<WeatherModel,Integer> {
+public interface WeatherRepository extends JpaRepository<WeatherModel, UUID> {
 }
