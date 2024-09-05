@@ -1,7 +1,6 @@
 package com.example.weatherMonitoringSystem.controller;
 
 import com.example.weatherMonitoringSystem.model.WeatherModel;
-import com.example.weatherMonitoringSystem.kafka.PublishWeatherData;
 import com.example.weatherMonitoringSystem.service.WeatherService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -16,16 +15,12 @@ import java.util.List;
 @RequestMapping("api/v1/weather")
 @RequiredArgsConstructor
 public class WeatherController {
-
-
     Logger logger = LoggerFactory.getLogger(WeatherController.class);
     private final WeatherService weatherService;
-    private final PublishWeatherData publishWeatherData;
-
-    @GetMapping("/fetch/{city}")
+    @GetMapping("/avg/{city}")
     public ResponseEntity<String> fetchDataFromAPI(@PathVariable String city) {
-        logger.info("use endpoint get user");
-        String message = weatherService.fetchData(city);
+        logger.info("use endpoint avg temp");
+        String message = weatherService.getAVG(city);
         return ResponseEntity.status(HttpStatus.OK).body(message);
     }
 

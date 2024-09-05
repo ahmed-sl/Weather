@@ -16,9 +16,8 @@ public class WeatherConsumer {
     Logger logger = LoggerFactory.getLogger(WeatherConsumer.class);
 
     @KafkaListener(topics = {"weather"})
-    public void listenToKafkaTopic(String message) {
-//        weatherService.addWeatherModels(message);
+    public void listenToKafkaTopic(WeatherModel message) {
+        weatherService.addWeatherModels(message);
         logger.trace("receive data successfully");
-        System.out.println("message from kafka: " + message.toString());
     }
 }
