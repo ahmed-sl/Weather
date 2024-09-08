@@ -14,6 +14,8 @@ This project provides an API for retrieving weather data and calculating average
 [Postman Docmentation](https://documenter.getpostman.com/view/18939368/2sAXjRVpVY)
 
 
+## Getting Started
+
 ### Clone the repository
 
 ```bash
