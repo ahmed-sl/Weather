@@ -7,7 +7,7 @@ This project provides an API for retrieving weather data and calculating average
 - Retrieve all weather data from the database.
 - Get the average temperature for a specific city.
 - Supports cities such as Riyadh, Jeddah, Mecca, Medina, Dammam, Khobar, Abha, Tabuk, Taif, and Hail.
-- Integrates with Kafka for real-time data consumption and consumption.
+- Integrates with Kafka for real-time data consumption.
   
 ## Endpoints
 
