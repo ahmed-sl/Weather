@@ -5,6 +5,7 @@ import com.example.weatherMonitoringSystem.service.WeatherService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +25,10 @@ public class WeatherController {
         return ResponseEntity.status(HttpStatus.OK).body(message);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<WeatherModel>> getData() {
+    @GetMapping("/all/{pageNumber}/{pageSize}")
+    public ResponseEntity<Page<WeatherModel>> getData(@PathVariable int pageNumber, @PathVariable int pageSize) {
         logger.trace("use endpoint get all weathers");
-        return ResponseEntity.status(HttpStatus.OK).body(weatherService.getAllData());
+        return ResponseEntity.status(HttpStatus.OK).body(weatherService.getAllData(pageNumber,pageSize));
     }
 
 }

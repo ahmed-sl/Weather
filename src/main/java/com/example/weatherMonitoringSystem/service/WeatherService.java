@@ -5,6 +5,8 @@ import com.example.weatherMonitoringSystem.repository.WeatherRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
@@ -19,9 +21,9 @@ public class WeatherService {
             "riyadh", "jeddah", "mecca", "medina", "dammam",
             "khobar", "abha", "tabuk", "taif", "hail");
 
-    public List<WeatherModel> getAllData() {
+    public Page<WeatherModel> getAllData(int pageNumber, int pageSize) {
         logger.trace("get all data from database");
-        return weatherRepository.findAll();
+        return weatherRepository.findAll(PageRequest.of(pageNumber,pageSize));
     }
 
     public String getAVG(String city) {
